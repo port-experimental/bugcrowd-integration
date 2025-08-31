@@ -44,16 +44,6 @@ Before running the script, ensure you have the following:
         "title": "Program State",
         "enum": ["active", "paused", "inactive"]
       },
-      "created_at": {
-        "type": "string",
-        "format": "date-time",
-        "title": "Created At"
-      },
-      "updated_at": {
-        "type": "string",
-        "format": "date-time",
-        "title": "Updated At"
-      },
       "program_type": {
         "type": "string",
         "title": "Program Type"
@@ -89,13 +79,11 @@ Before running the script, ensure you have the following:
       },
       "severity": {
         "type": "string",
-        "title": "Severity",
-        "enum": ["Critical", "High", "Medium", "Low", "Informational"]
+        "title": "Severity"
       },
-      "state": {
+      "status": {
         "type": "string",
-        "title": "Status",
-        "enum": ["new", "triaged", "resolved", "duplicate", "not_applicable"]
+        "title": "Status"
       },
       "submitted_at": {
         "type": "string",
@@ -110,29 +98,19 @@ Before running the script, ensure you have the following:
         "type": "string",
         "title": "Target Asset"
       },
-      "vulnerability_type": {
-        "type": "string",
-        "title": "Vulnerability Type"
-      },
       "bugcrowd_url": {
         "type": "string",
         "format": "url",
         "title": "BugCrowd URL"
       }
     },
-    "required": ["severity", "state"]
+    "required": []
   },
   "relations": {
     "program": {
       "title": "BugCrowd Program",
       "target": "bugcrowd_program",
       "required": true,
-      "many": false
-    },
-    "service": {
-      "title": "Related Service",
-      "target": "service",
-      "required": false,
       "many": false
     }
   }
@@ -197,9 +175,9 @@ This will:
 - ✅ Create program entities in Port with metadata and URLs
 - ✅ **Fetch security submissions from ALL programs** (last 30 days by default)
 - ✅ Transform BugCrowd data format to Port entities
-- ✅ Preserve BugCrowd severity (P1-P5) and state values directly
+- ✅ **Extract researcher and target names** from BugCrowd relationships
+- ✅ Preserve BugCrowd severity (1-5) and status values directly
 - ✅ **Link each submission to its program** for proper organization
-- ✅ Optionally link submissions to services based on target mapping
 - ✅ Handle pagination for both programs and submissions
 
 ---
@@ -215,7 +193,7 @@ graph TD
     C --> E[bugcrowd_submission]
     
     E --> D
-    E --> F[Service Relations]
+
     
     G[Port] --> D
     G --> E
@@ -235,11 +213,11 @@ graph TD
 - **Complete Program Coverage**: Fetches ALL accessible BugCrowd programs automatically
 - **Hierarchical Organization**: Submissions are properly linked to their parent programs
 - **Unified Security View**: See programs and submissions alongside Jira tickets and other development data
-- **Native BugCrowd Values**: Uses BugCrowd's original severity (P1-P5) and state values directly
-- **State Management**: Tracks submission workflow from new → triaged → resolved
+- **Native BugCrowd Values**: Uses BugCrowd's original severity (1-5) and status values directly
+- **Name Resolution**: Extracts actual researcher usernames and target names from API relationships
 - **Researcher Attribution**: Identifies which security researchers found issues
-- **Target Linking**: Maps vulnerability targets to your Port services (customizable)
-- **Program Metadata**: Tracks program state, rewards, and lifecycle information
+- **Clean Field Mapping**: Only includes fields available from BugCrowd API (removed created_at/updated_at for programs)
+- **Program Metadata**: Tracks program state, type, and provides BugCrowd URLs
 - Script uses `upsert=true` to avoid duplicates and update existing entities
 - OAuth tokens are generated fresh on each run for security
 - Handles BugCrowd API pagination for both programs and submissions
@@ -250,11 +228,11 @@ graph TD
 
 You can modify the following in the script:
 
-- **Time Range**: Change `days_back=30` in the `get_bugcrowd_submissions()` call to adjust lookback period
-- **Service Mapping**: Update `map_target_to_service()` function to match your service naming conventions
-- **Severity Filtering**: Add filters to focus on specific severity levels (P1-P5)
-- **Data Filtering**: Add filters to focus on specific vulnerability types or severity levels
-- **Pagination Limit**: Adjust `page[limit]` parameter for API performance tuning
+- **Time Range**: Change `days_back=30` in the `get_all_bugcrowd_submissions()` call to adjust lookback period
+- **Severity Filtering**: Add filters to focus on specific severity levels (1-5)
+- **Status Filtering**: Add filters to focus on specific submission states (new, triaged, resolved, etc.)
+- **Data Filtering**: Add custom filters based on researcher, target, or other criteria
+- **API Version**: Update `Bugcrowd-Version` header to use different API versions
 
 ---
 
@@ -266,9 +244,9 @@ You can modify the following in the script:
 - Analyze vulnerability types and patterns
 
 ### Integration with Development Workflow  
-- Link security submissions to affected services
 - Cross-reference with Jira tickets for fix tracking
-- Prioritize development work based on security impact
+- Prioritize development work based on security severity
+- Track researcher contributions and submission patterns
 
 ### Compliance & Reporting
 - Generate security metrics and KPIs
