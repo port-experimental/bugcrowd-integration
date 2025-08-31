@@ -116,6 +116,7 @@ def get_bugcrowd_programs():
         if page_programs:
             programs.extend(page_programs)
             print(f"  ✅ Found {len(page_programs)} programs")
+
         else:
             print(f"  ℹ️ No programs found in response")
             
@@ -142,13 +143,12 @@ def transform_program_to_port(program):
     identifier = program.get("id", "")
     title = attributes.get("name", f"Program {identifier}")
     
+
     properties = {
-        "description": attributes.get("description", "")[:1000],  # Limit description length
-        "state": attributes.get("state", "active"),
-        "created_at": attributes.get("created_at"),
-        "updated_at": attributes.get("updated_at"),
-        "program_type": attributes.get("program_type", ""),
-        "maximum_reward": attributes.get("maximum_reward", {}).get("cents", 0) if attributes.get("maximum_reward") else 0,
+        "description": attributes.get("description", "BugCrowd security program"),  # Provide default description
+        "state": attributes.get("state", "active"),  # Default to active since it's accessible
+        "program_type": attributes.get("program_type", "bug_bounty"),  # Default type
+        "maximum_reward": 0,  # Default to 0 since reward info not in basic API
         "bugcrowd_url": f"https://bugcrowd.com/{attributes.get('code', identifier)}"
     }
     

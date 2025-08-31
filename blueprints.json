@@ -15,16 +15,6 @@
             "title": "Program State",
             "enum": ["active", "paused", "inactive"]
           },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Updated At"
-          },
           "program_type": {
             "type": "string",
             "title": "Program Type"
