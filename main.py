@@ -3,12 +3,12 @@ from datetime import datetime, timedelta
 import json
 
 # ---- Config ----
-BUGCROWD_API_TOKEN = "djxybommkz:Yfo4neZka1tmdtpYulksvREhDl1RhoXJ-xTx37aKkcRVeZ_EzCiVmxTxBW5onWvD26El5PKT"  # Format: "identifier:secret_key" (from BugCrowd API Credentials page)
+BUGCROWD_API_TOKEN = "<YOUR_BUGCROWD_API_TOKEN>"  # Format: "identifier:secret_key" (from BugCrowd API Credentials page)
 BUGCROWD_BASE_URL = "https://api.bugcrowd.com"
 
 PORT_BASE_URL = "https://api.getport.io/v1"
-PORT_CLIENT_ID = "dnhbfsM0nabHZvLmixJox1bFTiAPNVbA"
-PORT_CLIENT_SECRET = "oq5om8c1jUJZ2CjsNS33Iqm7Nh3bcvA6ikRGJCB4cAkZuPg7mpF2FqGwBBT8MDX4"
+PORT_CLIENT_ID = "<YOUR_PORT_CLIENT_ID>"
+PORT_CLIENT_SECRET = "<YOUR_PORT_CLIENT_SECRET>"
 
 # Blueprint IDs in Port
 BP_BUGCROWD_PROGRAM = "bugcrowd_program"
