@@ -1,0 +1,101 @@
+{
+  "blueprints": [
+    {
+      "identifier": "bugcrowd_program",
+      "title": "BugCrowd Program",
+      "icon": "Shield",
+      "schema": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "state": {
+            "type": "string",
+            "title": "Program State",
+            "enum": ["active", "paused", "inactive"]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "program_type": {
+            "type": "string",
+            "title": "Program Type"
+          },
+          "maximum_reward": {
+            "type": "number",
+            "title": "Maximum Reward"
+          },
+          "bugcrowd_url": {
+            "type": "string",
+            "format": "url",
+            "title": "BugCrowd Program URL"
+          }
+        },
+        "required": []
+      },
+      "mirrorProperties": {},
+      "calculationProperties": {},
+      "aggregationProperties": {},
+      "relations": {}
+    },
+    {
+      "identifier": "bugcrowd_submission",
+      "title": "BugCrowd Submission",
+      "icon": "Bug",
+      "schema": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "submitted_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Submitted At"
+          },
+          "researcher_name": {
+            "type": "string",
+            "title": "Researcher"
+          },
+          "target": {
+            "type": "string",
+            "title": "Target Asset"
+          },
+          "bugcrowd_url": {
+            "type": "string",
+            "format": "url",
+            "title": "BugCrowd URL"
+          }
+        },
+        "required": []
+      },
+      "mirrorProperties": {},
+      "calculationProperties": {},
+      "aggregationProperties": {},
+      "relations": {
+        "program": {
+          "title": "BugCrowd Program",
+          "target": "bugcrowd_program",
+          "required": true,
+          "many": false
+        }
+      }
+    }
+  ]
+}
